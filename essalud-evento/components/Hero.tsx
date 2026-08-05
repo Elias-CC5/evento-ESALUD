@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ChevronDown, Calendar, MapPin, Users, Sparkles } from "lucide-react";
+import { ChevronDown, Calendar, MapPin, Users, Sparkles, Wine } from "lucide-react";
 import { GlowButton } from "@/components/ui/glow-button";
 
 const floatingCards = [
-  { icon: Calendar, label: "15 Agosto 2026", top: "22%", left: "6%", delay: 0 },
-  { icon: MapPin, label: "Salón Rubí · San Borja", top: "68%", left: "5%", delay: 0.2 },
-  { icon: Users, label: "300 Invitados de Gala", top: "65%", right: "6%", delay: 0.4 },
+  { icon: Calendar, label: "15 Agosto 2026", top: "18%", left: "5%", delay: 0 },
+  { icon: Wine, label: "Corcho Libre (Vino / Champagne)", top: "35%", right: "5%", delay: 0.15 },
+  { icon: MapPin, label: "Salón Rubí · San Borja", top: "68%", left: "5%", delay: 0.3 },
+  { icon: Users, label: "300 Invitados de Gala", top: "68%", right: "6%", delay: 0.45 },
 ];
 
 const cubicBezierEase = [0.16, 1, 0.3, 1];
@@ -198,12 +199,32 @@ export function Hero() {
           y la vocación de servicio de nuestra prestigiosa comunidad médica.
         </motion.p>
 
+        {/* Banner Informativo de Corcho Libre */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7, ease: cubicBezierEase }}
+          className="mt-6 glass glass-gold-border px-5 py-3 rounded-2xl bg-black/40 backdrop-blur-md max-w-lg border border-[#d4af37]/30 flex items-center gap-3 text-left"
+        >
+          <div className="p-2 rounded-xl bg-amber-500/10 text-[var(--gold)] shrink-0">
+            <Wine size={20} />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-[#d4af37] uppercase tracking-wider">
+              Corcho Libre Garantizado
+            </p>
+            <p className="text-xs text-zinc-300 font-light mt-0.5">
+              Cada invitado puede ingresar Vino o Champagne. Además, por cada grupo de 10 personas se permite 1 botella de Whisky sin recargo.
+            </p>
+          </div>
+        </motion.div>
+
         {/* Botones */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8, ease: cubicBezierEase }}
-          className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+          className="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
         >
           <GlowButton href="#contacto" className="w-full sm:w-auto min-w-[210px] shadow-[0_0_25px_rgba(212,175,55,0.25)] hover:shadow-[0_0_40px_rgba(212,175,55,0.45)] transition-shadow">
             Confirmar Asistencia

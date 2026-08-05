@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { CalendarDays, Clock, MapPin, Users2, Building2 } from "lucide-react";
+import { CalendarDays, Clock, MapPin, Users2, Building2, Wine } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
 
 // Importación de las imágenes locales de Rubí
@@ -19,7 +19,7 @@ const info = [
   { icon: CalendarDays, label: "Fecha", value: "15 de Agosto del 2026" },
   { icon: Clock, label: "Hora", value: "7:00 PM — 1:00 AM" },
   { icon: MapPin, label: "Lugar", value: "Salón Rubí, San Borja" },
-  { icon: Users2, label: "Asistentes", value: "300 personas" },
+  { icon: Wine, label: "Corcho Libre", value: "Vino / Champagne (1 Botella de Whisky c/10 pers.)" },
 ];
 
 export function About() {
@@ -98,7 +98,7 @@ export function About() {
               </motion.div>
             </AnimatePresence>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
             {/* Indicadores de diapositiva (puntos) */}
             <div className="absolute top-4 right-4 z-10 flex gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
@@ -112,13 +112,21 @@ export function About() {
               ))}
             </div>
 
+            {/* Banner Flotante de Corcho Libre */}
             <motion.div
-              animate={{ y: [0, -12, 0] }}
+              animate={{ y: [0, -8, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute bottom-6 left-6 right-6 glass glass-gold-border rounded-2xl p-5 z-10"
+              className="absolute bottom-6 left-6 right-6 glass glass-gold-border rounded-2xl p-5 z-10 backdrop-blur-xl bg-black/60"
             >
-              <p className="text-xs text-gold uppercase tracking-wider mb-1">Salón Rubí</p>
-              <p className="text-sm text-white/90">Un espacio exclusivo para 300 invitados</p>
+              <div className="flex items-center gap-2 mb-1">
+                <Wine size={16} className="text-[#d4af37]" />
+                <p className="text-xs text-gold font-semibold uppercase tracking-wider">
+                  Corcho Libre
+                </p>
+              </div>
+              <p className="text-xs text-white/90 leading-relaxed font-light">
+                Vino y Champagne ilimitado. Por cada 10 personas puede ingresar 1 botella de Whisky sin recargo.
+              </p>
             </motion.div>
           </div>
         </Reveal>
