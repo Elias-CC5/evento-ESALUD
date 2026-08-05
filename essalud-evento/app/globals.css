@@ -2,17 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================
+   CONFIGURACIÓN Y VARIABLES GLOBALES
+   ========================================== */
+:root {
+  --gold: #d4af37;
+  --gold-light: #fceaa7;
+  --gold-dark: #9e7d17;
+  --background: #070707;
+}
+
 * {
   scroll-behavior: smooth;
+  box-sizing: border-box;
 }
 
 html,
 body {
-  background-color: #070707;
+  background-color: var(--background);
   color: #ffffff;
   overflow-x: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
+/* Ocultar cursor predeterminado en pantallas que soporten puntero fino */
 body {
   cursor: none;
 }
@@ -23,25 +36,37 @@ body {
   }
 }
 
+/* Selección de texto adaptada a la temática */
 ::selection {
-  background-color: #d4af37;
+  background-color: var(--gold);
   color: #070707;
 }
 
+/* ==========================================
+   BARRA DE NAVEGACIÓN / SCROLLBAR
+   ========================================== */
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #070707;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #2a2a2a;
   border-radius: 999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #d4af37;
+  background: var(--gold);
 }
 
+/* ==========================================
+   EFECTOS VISUALES Y TEXTURAS
+   ========================================== */
+
+/* Capa de textura de grano */
 .noise-overlay {
   pointer-events: none;
   position: fixed;
@@ -52,23 +77,37 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Efecto Glassmorphism optimizado para fondos con imagen */
 .glass {
-  background: rgba(17, 17, 17, 0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(15, 15, 15, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Borde e iluminación dorada para tarjetería flotante */
 .glass-gold-border {
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8),
+              0 0 20px rgba(212, 175, 55, 0.1);
 }
 
+/* Texto dorado con gradiente metálico */
 .text-gradient-gold {
-  background: linear-gradient(135deg, #d4af37 0%, #e6c76b 45%, #d4af37 100%);
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
+
+/* Gradientes radiales y lineales ajustados para el Hero */
+.bg-radial-fade {
+  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+}
+
+/* ==========================================
+   ESTRUCTURA Y TIPOGRAFÍA
+   ========================================== */
 
 .section-padding {
   padding-top: clamp(5rem, 10vw, 9rem);
@@ -95,10 +134,13 @@ body {
   letter-spacing: 0.25em;
   text-transform: uppercase;
   font-size: 0.75rem;
-  color: #d4af37;
+  color: var(--gold);
   font-weight: 600;
 }
 
+/* ==========================================
+   ACCESIBILIDAD Y MOVIMIENTO REDUCIDO
+   ========================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

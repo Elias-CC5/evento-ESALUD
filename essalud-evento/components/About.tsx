@@ -1,9 +1,17 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { CalendarDays, Clock, MapPin, Users2, Building2 } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
+
+// Importación de las imágenes locales de Rubí
+import rubi1 from "@/components/imagen/RUBI.jpeg";
+import rubi2 from "@/components/imagen/RUBI2.png";
+import rubi3 from "@/components/imagen/RUBI3.png";
+
+const rubiImages = [rubi1, rubi2, rubi3];
 
 const info = [
   { icon: Building2, label: "Evento", value: "Aniversario del Hospital de Emergencias Grau" },
@@ -15,6 +23,16 @@ const info = [
 ];
 
 export function About() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % rubiImages.length);
+    }, 4000); // Transición cada 4 segundos
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section id="evento" className="section-padding relative">
       <div className="container-custom grid lg:grid-cols-2 gap-16 items-center">
@@ -60,18 +78,44 @@ export function About() {
 
         <Reveal delay={0.2}>
           <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-soft glass-gold-border">
-            <Image
-              src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200&auto=format&fit=crop"
-              alt="Salón de eventos elegante"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentImageIndex}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+                className="absolute inset-0 w-full h-full"
+              >
+                <Image
+                  src={rubiImages[currentImageIndex]}
+                  alt="Salón de eventos Rubí"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+            {/* Indicadores de diapositiva (puntos) */}
+            <div className="absolute top-4 right-4 z-10 flex gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+              {rubiImages.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentImageIndex ? "bg-[#d4af37] w-5" : "bg-white/40"
+                  }`}
+                />
+              ))}
+            </div>
+
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute bottom-6 left-6 right-6 glass glass-gold-border rounded-2xl p-5"
+              className="absolute bottom-6 left-6 right-6 glass glass-gold-border rounded-2xl p-5 z-10"
             >
               <p className="text-xs text-gold uppercase tracking-wider mb-1">Salón Rubí</p>
               <p className="text-sm text-white/90">Un espacio exclusivo para 300 invitados</p>
