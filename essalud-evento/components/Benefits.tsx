@@ -2,57 +2,92 @@
 
 import { motion } from "framer-motion";
 import {
-  Gem, UtensilsCrossed, MonitorPlay, Music4, Disc3, ArrowUpDown,
-  Presentation, Mic2, Sparkles, Armchair, ConciergeBell, ShieldCheck,
-  CircleParking, Wine,
+  Gem, UtensilsCrossed, Sparkles, ShieldCheck,
+  CheckCircle2, Music, Tv, GlassWater
 } from "lucide-react";
 import { Reveal } from "@/components/ui/reveal";
 
-const benefits = [
-  { icon: Gem, title: "Salón Exclusivo", desc: "Espacio privado de alto nivel para 300 invitados." },
-  { icon: UtensilsCrossed, title: "Buffet Premium", desc: "Estaciones gourmet con variedad internacional." },
-  { icon: MonitorPlay, title: "Pantalla de 160\"", desc: "Proyección de alta definición para el show." },
-  { icon: Music4, title: "Orquesta en Vivo", desc: "Repertorio en vivo para toda la noche." },
-  { icon: Disc3, title: "DJ Profesional", desc: "Sets curados para cada momento del evento." },
-  { icon: ArrowUpDown, title: "Ascensor", desc: "Acceso cómodo y accesible al salón." },
-  { icon: Presentation, title: "Estrado", desc: "Escenario preparado para el show principal." },
-  { icon: Mic2, title: "Micrófono", desc: "Equipo de sonido de calidad profesional." },
-  { icon: Sparkles, title: "Luces Inteligentes", desc: "Iluminación dinámica sincronizada." },
-  { icon: Armchair, title: "Mesas Elegantes", desc: "Montaje refinado con mantelería premium." },
-  { icon: ConciergeBell, title: "Mozos Profesionales", desc: "Atención dedicada durante todo el evento." },
-  { icon: ShieldCheck, title: "Seguridad Privada", desc: "Resguardo discreto y profesional." },
-  { icon: CircleParking, title: "Estacionamiento", desc: "Espacio disponible para los invitados." },
-  { icon: Wine, title: "Corcho Libre", desc: "Servicio de bebidas durante la celebración." },
+const categories = [
+  {
+    icon: Gem,
+    title: "Lugar & Confort",
+    highlight: "Salón Exclusivo",
+    desc: "Ambiente de alto nivel para 300 invitados.",
+    features: ["Mesas elegantes y mantelería", "Acceso por ascensor", "Estacionamiento privado"],
+  },
+  {
+    icon: UtensilsCrossed,
+    title: "Gastronomía",
+    highlight: "Buffet Premium",
+    desc: "Estaciones gourmet con variedad internacional.",
+    features: ["Atención de mozos profesionales", "Servicio de Corcho Libre", "Atención dedicada"],
+  },
+  {
+    icon: Sparkles,
+    title: "Producción & Show",
+    highlight: "Audio e Iluminación",
+    desc: "Equipamiento audiovisual de nivel profesional.",
+    features: ["Pantalla de 160\" HD", "Luces inteligentes", "Estrado y micrófonos"],
+  },
+  {
+    icon: Music,
+    title: "Música & Seguridad",
+    highlight: "Orquesta & DJ",
+    desc: "Entretenimiento continuo para toda la velada.",
+    features: ["Orquesta en vivo", "DJ con set curado", "Seguridad privada discreta"],
+  },
 ];
 
 export function Benefits() {
   return (
-    <section id="beneficios" className="section-padding relative">
-      <div className="container-custom">
-        <Reveal className="text-center max-w-2xl mx-auto mb-16">
-          <p className="eyebrow mb-4">Beneficios incluidos</p>
-          <h2 className="font-display font-bold text-[clamp(2rem,4vw,3.2rem)] leading-tight">
-            Todo pensado para una{" "}
-            <span className="text-gradient-gold">experiencia impecable</span>
+    <section id="beneficios" className="py-20 relative bg-black/40">
+      <div className="container-custom px-4 max-w-6xl mx-auto">
+        
+        {/* Cabecera */}
+        <Reveal className="text-center max-w-2xl mx-auto mb-12">
+          <p className="text-xs font-semibold tracking-widest text-[#d4af37] uppercase mb-2">
+            Servicios Incluidos
+          </p>
+          <h2 className="font-display font-bold text-3xl md:text-4xl text-white">
+            Todo listo para una{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fff5d6] via-[#d4af37] to-[#aa820a]">
+              noche memorable
+            </span>
           </h2>
         </Reveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {benefits.map((b, i) => (
-            <Reveal key={b.title} delay={(i % 6) * 0.06}>
+        {/* Grid de 4 Bloques Compactos */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {categories.map((cat, i) => (
+            <Reveal key={cat.title} delay={i * 0.1}>
               <motion.div
-                whileHover={{ y: -6, borderColor: "rgba(212,175,55,0.4)" }}
-                className="glass rounded-2xl p-6 h-full border border-white/5 transition-colors duration-300 group"
+                whileHover={{ y: -4 }}
+                className="h-full p-6 rounded-2xl bg-zinc-900/60 border border-amber-500/20 backdrop-blur-sm flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-5 group-hover:bg-gold/20 transition-colors duration-300">
-                  <b.icon size={22} />
+                <div>
+                  {/* Icono + Título */}
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[#d4af37] flex items-center justify-center mb-4">
+                    <cat.icon size={20} />
+                  </div>
+                  
+                  <h3 className="text-lg font-bold text-white mb-1">{cat.highlight}</h3>
+                  <p className="text-xs text-zinc-400 mb-4 leading-relaxed">{cat.desc}</p>
+                  
+                  {/* Lista de características integradas */}
+                  <ul className="space-y-2 border-t border-white/5 pt-4">
+                    {cat.features.map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-2 text-xs text-zinc-300">
+                        <CheckCircle2 size={13} className="text-[#d4af37] shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h3 className="text-white font-semibold mb-2">{b.title}</h3>
-                <p className="text-sm text-muted leading-relaxed">{b.desc}</p>
               </motion.div>
             </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
-import { ReactNode } from "react";
+import { ReactNode, ElementType } from "react";
 
 interface RevealProps {
   children: ReactNode;
@@ -11,18 +11,24 @@ interface RevealProps {
   once?: boolean;
 }
 
-const variants: Variants = {
-  hidden: { opacity: 0, y: 32, filter: "blur(8px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)" },
-};
+export function Reveal({
+  children,
+  delay = 0,
+  y = 32,
+  className,
+  once = true,
+}: RevealProps) {
+  const dynamicVariants: Variants = {
+    hidden: { opacity: 0, y: y, filter: "blur(8px)" },
+    visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+  };
 
-export function Reveal({ children, delay = 0, className, once = true }: RevealProps) {
   return (
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, amount: 0.25 }}
-      variants={variants}
+      viewport={{ once, amount: 0.2 }}
+      variants={dynamicVariants}
       transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
@@ -31,38 +37,33 @@ export function Reveal({ children, delay = 0, className, once = true }: RevealPr
   );
 }
 
-export function RevealText({
-  text,
-  className,
-  delay = 0,
-  el: El = "span",
-}: {
+interface RevealTextProps {
   text: string;
   className?: string;
   delay?: number;
-  el?: keyof JSX.IntrinsicElements;
-}) {
-  const words = text.split(" ");
+  el?: ElementType;
+}
+
+export function RevealText({
+  text,
+  className = "",
+  delay = 0,
+  el: Tag = "h1",
+}: RevealTextProps) {
   return (
-    <El className={className}>
-      <span className="inline-block overflow-hidden">
-        {words.map((word, i) => (
-          <motion.span
-            key={i}
-            className="inline-block mr-[0.28em]"
-            initial={{ y: "110%", opacity: 0 }}
-            whileInView={{ y: "0%", opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.9,
-              delay: delay + i * 0.06,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          >
-            {word}
-          </motion.span>
-        ))}
-      </span>
-    </El>
+    <Tag className={className}>
+      <motion.span
+        initial={{ opacity: 0, y: 25, filter: "blur(6px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        transition={{
+          duration: 1,
+          delay: delay,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        className="inline-block"
+      >
+        {text}
+      </motion.span>
+    </Tag>
   );
 }
