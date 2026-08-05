@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ChevronDown, Calendar, MapPin, Users, Sparkles } from "lucide-react";
-import { RevealText } from "@/components/ui/reveal";
 import { GlowButton } from "@/components/ui/glow-button";
 
 const floatingCards = [
@@ -17,28 +16,23 @@ const cubicBezierEase = [0.16, 1, 0.3, 1];
 export function Hero() {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Posición del cursor en coordenadas normalizadas [-0.5, 0.5]
+  // Posición del cursor
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-
-  // Posición en píxeles absolutos para la luz de cursor
   const cursorPxX = useMotionValue(0);
   const cursorPxY = useMotionValue(0);
 
-  // Physics Springs ultra suaves
+  // Springs suaves
   const springX = useSpring(mouseX, { stiffness: 40, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 40, damping: 20 });
-
   const springPxX = useSpring(cursorPxX, { stiffness: 60, damping: 25 });
   const springPxY = useSpring(cursorPxY, { stiffness: 60, damping: 25 });
 
-  // Transformaciones 3D Parallax
+  // Transformaciones Parallax & Tilt
   const bgX = useTransform(springX, [-0.5, 0.5], ["12px", "-12px"]);
   const bgY = useTransform(springY, [-0.5, 0.5], ["12px", "-12px"]);
-  
   const floatX = useTransform(springX, [-0.5, 0.5], ["-35px", "35px"]);
   const floatY = useTransform(springY, [-0.5, 0.5], ["-35px", "35px"]);
-  
   const tiltX = useTransform(springY, [-0.5, 0.5], [10, -10]);
   const tiltY = useTransform(springX, [-0.5, 0.5], [-10, 10]);
 
@@ -62,7 +56,7 @@ export function Hero() {
       onMouseLeave={() => setIsHovered(false)}
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#070707] select-none perspective-[1000px]"
     >
-      {/* 1. Cursor Spotlight (Luz Dorada interactiva que sigue el ratón) */}
+      {/* 1. Cursor Spotlight (Fondo reactivo al ratón) */}
       <motion.div
         className="pointer-events-none absolute -inset-px z-0 opacity-0 lg:opacity-100 transition-opacity duration-500"
         style={{
@@ -74,7 +68,7 @@ export function Hero() {
         }}
       />
 
-      {/* 2. Fondo con Parallax y Zoom de Carga */}
+      {/* 2. Fondo de Imagen con Parallax */}
       <motion.div 
         style={{ x: bgX, y: bgY }}
         className="absolute inset-0 -z-30 w-full h-full scale-105"
@@ -88,12 +82,12 @@ export function Hero() {
           className="w-full h-full object-cover object-center"
         />
 
-        {/* Viñeta de degradados para asegurar lecturas legibles */}
+        {/* Capas de oscuridad para legibilidad */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#070707]/90 via-[#070707]/40 to-[#070707]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.15)_0%,transparent_70%)]" />
       </motion.div>
 
-      {/* 3. Haz de Luz de Fondo Animado (Glow respirable) */}
+      {/* 3. Haz de luz animado */}
       <motion.div
         animate={{
           opacity: [0.25, 0.55, 0.25],
@@ -103,7 +97,7 @@ export function Hero() {
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[380px] bg-gradient-to-r from-amber-500/10 via-[#d4af37]/20 to-amber-600/10 blur-[140px] rounded-full pointer-events-none -z-20"
       />
 
-      {/* 4. Partículas Doradas Orgánicas */}
+      {/* 4. Partículas Doradas Flotantes */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
         {Array.from({ length: 18 }).map((_, i) => (
           <motion.span
@@ -131,7 +125,7 @@ export function Hero() {
         ))}
       </div>
 
-      {/* 5. Tarjetas Flotantes 3D con Tilt en Profundidad */}
+      {/* 5. Tarjetas Flotantes 3D */}
       <motion.div 
         style={{ x: floatX, y: floatY, rotateX: tiltX, rotateY: tiltY }}
         className="hidden lg:block absolute inset-0 pointer-events-none z-10 transform-style-3d"
@@ -162,17 +156,16 @@ export function Hero() {
         ))}
       </motion.div>
 
-      {/* 6. Contenido Central */}
+      {/* 6. Contenido Central Principal */}
       <div className="relative z-10 container-custom text-center flex flex-col items-center pt-24 pb-12 px-4">
         
-        {/* Eyebrow con Efecto Shimmer de Luz */}
+        {/* Badge Institucional */}
         <motion.div
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: cubicBezierEase }}
           className="relative overflow-hidden inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full glass-gold-border bg-black/50 group"
         >
-          {/* Shimmer sweep animado */}
           <motion.div
             animate={{ x: ["-100%", "200%"] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
@@ -184,30 +177,32 @@ export function Hero() {
           </span>
         </motion.div>
 
-        {/* Título Principal Revelado Palabra por Palabra */}
-        <RevealText
-          el="h1"
-          text="Aniversario del Hospital de Emergencias Grau"
-          delay={0.3}
-          className="font-display font-bold leading-[1.05] tracking-tight text-[clamp(2.4rem,5.5vw,4.8rem)] max-w-5xl text-gradient-gold drop-shadow-2xl"
-        />
+        {/* Título Principal Directo Corregido */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 1, delay: 0.3, ease: cubicBezierEase }}
+          className="font-display font-bold leading-[1.08] tracking-tight text-[clamp(2.3rem,5.2vw,4.8rem)] max-w-5xl text-transparent bg-clip-text bg-gradient-to-r from-[#ffffff] via-[#e6c76b] to-[#d4af37] drop-shadow-2xl text-center"
+        >
+          Aniversario del Hospital de Emergencias Grau
+        </motion.h1>
 
         {/* Subtítulo */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7, ease: cubicBezierEase }}
+          transition={{ duration: 0.8, delay: 0.6, ease: cubicBezierEase }}
           className="mt-6 text-base md:text-xl text-zinc-300 max-w-2xl font-light leading-relaxed tracking-wide text-muted"
         >
           Una celebración exclusiva orientada a honrar la trayectoria, el compromiso insustituible
           y la vocación de servicio de nuestra prestigiosa comunidad médica.
         </motion.p>
 
-        {/* Botones con Micro-Interacciones */}
+        {/* Botones */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9, ease: cubicBezierEase }}
+          transition={{ duration: 0.8, delay: 0.8, ease: cubicBezierEase }}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
         >
           <GlowButton href="#contacto" className="w-full sm:w-auto min-w-[210px] shadow-[0_0_25px_rgba(212,175,55,0.25)] hover:shadow-[0_0_40px_rgba(212,175,55,0.45)] transition-shadow">
@@ -219,11 +214,11 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* 7. Indicador de Scroll Interactivo */}
+      {/* 7. Indicador de Scroll */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 1 }}
+        transition={{ delay: 1.2, duration: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
       >
         <motion.a
